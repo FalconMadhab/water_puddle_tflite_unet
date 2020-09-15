@@ -12,7 +12,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-
+import collections
 
 from tqdm import tqdm
 from itertools import chain
@@ -128,8 +128,10 @@ class automaticmaplabelling():
         #testimg=resize(img,(self.IMG_HEIGHT,self.IMG_WIDTH),mode='constant',preserve_range=True)
         x_test[0]=img
         preds_test= self.model.predict(x_test, verbose=1)
-        
         preds_test = (preds_test > 0.5).astype(np.uint8)
+        # To know the counts of 1's and 0's in mask
+        # unique, counts = np.unique(preds_test, return_counts=True)
+        # print(dict(zip(unique, counts)))
         mask=preds_test[0]
         for i in range(mask.shape[0]):
             for j in range(mask.shape[1]):
@@ -154,7 +156,7 @@ class automaticmaplabelling():
 
 def main():
     #Test image path , image size expected 128x128x3
-    test_image_name = "test_128/test_best.png"
+    test_image_name = "test_128/img_000000161.png"
     #Model path
     model_path = "model/model-dsbowl2018-1.h5"
 
